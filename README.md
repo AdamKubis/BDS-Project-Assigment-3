@@ -15,4 +15,4 @@ Pre spustenie z CMD:
 2.spustit prikaz ->  project3-1.0-SNAPSHOT.jar
 
 
-Pripadne bugy onjavujuce sa vo verzii 1.0 budu opravene nasledujucimi patchmi :)
+Pripadne bugy objavujuce sa vo verzii 1.0 budu opravene nasledujucimi patchmi :)
