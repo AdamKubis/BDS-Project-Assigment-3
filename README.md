@@ -11,8 +11,7 @@ Pre spustenie treba 1. build aplikacie
 
 
 Pre spustenie z CMD:
--premiestnit sa do suboru obsahujuceho targety
--spustit prikaz ->  project3-1.0-SNAPSHOT.jar
+-premiestnit sa do suboru obsahujuceho targety \n -spustit prikaz ->  project3-1.0-SNAPSHOT.jar
 
 
 Pripadne bugy onjavujuce sa vo verzii 1.0 budu opravene nasledujucimi patchmi :)
