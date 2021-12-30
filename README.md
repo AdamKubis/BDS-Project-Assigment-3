@@ -8,3 +8,8 @@ Pre spustenie treba 1. build aplikacie
 
 2. spustit aplikaciu
 -java -jar target/project3-1.0-SNAPSHOT.jar
+
+
+Pre spustenie z CMD:
+-premiestnit sa do suboru obsahujuceho targety
+-spustit prikaz ->  project3-1.0-SNAPSHOT.jar
