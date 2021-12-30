@@ -15,13 +15,17 @@ import org.but.feec.project3.api.OrderDetailView;
 import org.but.feec.project3.api.ProductBasicView;
 import org.but.feec.project3.data.OrderRepository;
 import org.but.feec.project3.data.ProductRepository;
+import org.but.feec.project3.exceptions.DataAccessException;
 import org.but.feec.project3.exceptions.ExceptionHandler;
+import org.but.feec.project3.config.DataSourceConfig;
 import org.but.feec.project3.service.OrderService;
 import org.but.feec.project3.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductOrderController {
@@ -85,10 +89,10 @@ public class ProductOrderController {
 
         systemProductTableView.getSortOrder().add(productId);
 
-        initializeTableViewSelection();
+        initializeProductTableViewSelection();
         //loadIcons();
 
-        logger.info("ProductController initialized");
+        //logger.info("ProductOrderController initialized");
 
         orderRepository = new OrderRepository();
         orderService = new OrderService(orderRepository);
@@ -108,25 +112,25 @@ public class ProductOrderController {
 
         systemOrderTableView.getSortOrder().add(orderId);
 
-        initializeTableViewSelection();
+        initializeOrderTableViewSelection();
         //loadIcons();
 
-        logger.info("ProductController initialized");
+        logger.info("ProductOrderController initialized");
     }
 
-    private void initializeTableViewSelection() {
+    private void initializeOrderTableViewSelection() {
         //MenuItem edit = new MenuItem("Edit person");
         MenuItem detailedView = new MenuItem("Detailed order view");
         /*edit.setOnAction((ActionEvent event) -> {
             OrderBasicView orderView = systemOrderTableView.getSelectionModel().getSelectedItem();
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(App.class.getResource("PersonEdit.fxml"));
+                fxmlLoader.setLocation(App.class.getResource("ProductEdit.fxml"));
                 Stage stage = new Stage();
                 stage.setUserData(orderView);
                 stage.setTitle("BDS JavaFX Edit Person");
 
-                PersonEditController controller = new PersonEditController();
+                ProductEditController controller = new ProductEditController();
                 controller.setStage(stage);
                 fxmlLoader.setController(controller);
 
@@ -151,9 +155,9 @@ public class ProductOrderController {
                 OrderDetailView orderDetailView = orderService.getOrderDetailView(orderId);
 
                 stage.setUserData(orderDetailView);
-                stage.setTitle("BDS JavaFX Persons Detailed View");
+                stage.setTitle("Database Application - Order Detailed View");
 
-                PersonDetailViewController controller = new PersonDetailViewController();
+                OrderDetailViewController controller = new OrderDetailViewController();
                 controller.setStage(stage);
                 fxmlLoader.setController(controller);
 
@@ -167,11 +171,61 @@ public class ProductOrderController {
             }
         });
 
-
         ContextMenu menu = new ContextMenu();
         //menu.getItems().add(edit);
         menu.getItems().addAll(detailedView);
         systemOrderTableView.setContextMenu(menu);
+    }
+
+    private void initializeProductTableViewSelection() {
+        MenuItem edit = new MenuItem("Edit product");
+        MenuItem delete = new MenuItem("Delete product");
+        edit.setOnAction((ActionEvent event) -> {
+            ProductBasicView productView = systemProductTableView.getSelectionModel().getSelectedItem();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(App.class.getResource("ProductEdit.fxml"));
+                Stage stage = new Stage();
+                stage.setUserData(productView);
+                stage.setTitle("Database Application - Product Edit");
+
+                ProductEditController controller = new ProductEditController();
+                controller.setStage(stage);
+                fxmlLoader.setController(controller);
+
+                Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+
+                stage.setScene(scene);
+
+                stage.show();
+            } catch (IOException ex) {
+                ExceptionHandler.handleException(ex);
+            }
+        });
+
+        delete.setOnAction((ActionEvent event) -> {
+            ProductBasicView productView = systemProductTableView.getSelectionModel().getSelectedItem();
+            String insertPersonSQL = "DELETE FROM bpc_bds_project.product WHERE id_product = ?";
+            try (Connection connection = DataSourceConfig.getConnection();
+                 // would be beneficial if I will return the created entity back
+                 PreparedStatement preparedStatement = connection.prepareStatement(insertPersonSQL, Statement.RETURN_GENERATED_KEYS)) {
+                // set prepared statement variables
+
+
+                int affectedRows = preparedStatement.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new DataAccessException("Creating person failed, no rows affected.");
+                }
+            } catch (SQLException e) {
+                throw new DataAccessException("Creating person failed operation on the database failed.");
+            }
+        });
+
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(edit);
+        //menu.getItems().addAll(delete);
+        systemProductTableView.setContextMenu(menu);
     }
 
     private ObservableList<ProductBasicView> initializeProductData() {
@@ -190,13 +244,13 @@ public class ProductOrderController {
         System.exit(0);
     }
 
-    public void handleAddPersonButton(ActionEvent actionEvent) {
+    public void handleAddProductButton(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(App.class.getResource("fxml/PersonsCreate.fxml"));
+            fxmlLoader.setLocation(App.class.getResource("ProductCreate.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
             Stage stage = new Stage();
-            stage.setTitle("BDS JavaFX Create Person");
+            stage.setTitle("Database Application - Product Create");
             stage.setScene(scene);
 
 //            Stage stageOld = (Stage) signInButton.getScene().getWindow();
@@ -212,8 +266,8 @@ public class ProductOrderController {
     }
 
     public void handleRefreshButton(ActionEvent actionEvent) {
-        ObservableList<ProductBasicView> observablePersonsList = initializeProductData();
-        systemProductTableView.setItems(observablePersonsList);
+        ObservableList<ProductBasicView> observableProductList = initializeProductData();
+        systemProductTableView.setItems(observableProductList);
         systemProductTableView.refresh();
         systemProductTableView.sort();
     }

@@ -29,8 +29,6 @@ public class OrderService {
 
 
     public List<OrderBasicView> getOrderBasicView() {
-        //String username = login.username();
-        //System.out.print(username);
         return orderRepository.getOrderBasicView("gnowlan3@virginia.edu");
     }
 

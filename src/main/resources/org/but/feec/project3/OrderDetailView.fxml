@@ -57,28 +57,7 @@
                 <TextField fx:id="payment_status_typeTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <TextField fx:id="payment_methodTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <TextField fx:id="totalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                 <!-- <Label text="brand_name" GridPane.rowIndex="5">
-                     <GridPane.margin>
-                         <Insets />
-                     </GridPane.margin>
-                     <padding>
-                         <Insets left="5.0" />
-                     </padding>
-                 </Label>
-                 <Label text="house number" GridPane.rowIndex="6">
-                     <padding>
-                         <Insets left="5.0" />
-                     </padding>
-                 </Label>
-                 <Label text="street" GridPane.rowIndex="7">
-                     <padding>
-                         <Insets left="5.0" />
-                     </padding>
-                 </Label>
-                 <TextField fx:id="cityTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                 <TextField fx:id="houseNumberTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                 <TextField fx:id="streetTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                 -->
+
             </children>
         </GridPane>
     </children>

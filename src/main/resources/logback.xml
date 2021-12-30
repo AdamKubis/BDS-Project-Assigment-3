@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.but.feec.javafx">
+    <logger name="org.but.feec.project3">
         <appender-ref ref="FILE"/>
     </logger>
 

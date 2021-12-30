@@ -88,7 +88,7 @@ public class LoginController {
         handleSignIn();
     }
 
-    public void handleSignIn() {
+    private void handleSignIn() {
         String username = usernameTextfield.getText();
         String password = passwordTextField.getText();
 
@@ -97,6 +97,7 @@ public class LoginController {
             if (authenticated) {
                 showProductsView();
             } else {
+                logger.error("Login failed");
                 showInvalidPaswordDialog();
             }
         } catch (ResourceNotFoundException | DataAccessException e) {
